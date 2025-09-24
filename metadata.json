@@ -1,0 +1,7 @@
+{
+  "name": "Happy Hour Finder",
+  "description": "An application to discover up-to-date happy hour specials for bars and restaurants using your current location or by searching anywhere in the world. It provides real-time data powered by Google's Gemini API.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

@@ -1,0 +1,45 @@
+import React from 'react';
+import type { HappyHourSpecial, Filters, GroundingChunk } from '../types';
+import { FilterPanel } from './FilterPanel';
+import { ResultsList } from './ResultsList';
+
+interface SidebarProps {
+  specials: HappyHourSpecial[];
+  sources: GroundingChunk[];
+  isLoading: boolean;
+  error: string | null;
+  filters: Filters;
+  onFilterChange: (newFilters: Filters) => void;
+  activeSearch: string;
+  selectedSpecialId: string | null;
+  onSelectSpecial: (id: string | null) => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  specials,
+  sources,
+  isLoading,
+  error,
+  filters,
+  onFilterChange,
+  activeSearch,
+  selectedSpecialId,
+  onSelectSpecial,
+}) => {
+  return (
+    <aside className="w-1/3 max-w-lg bg-gray-800/50 backdrop-blur-sm border-r border-gray-700 flex flex-col">
+      <FilterPanel filters={filters} onFilterChange={onFilterChange} />
+      <div className="flex-1 overflow-y-auto">
+        <ResultsList
+          specials={specials}
+          sources={sources}
+          isLoading={isLoading}
+          error={error}
+          activeSearch={activeSearch}
+          selectedSpecialId={selectedSpecialId}
+          onSelectSpecial={onSelectSpecial}
+        />
+      </div>
+    </aside>
+  );
+};
