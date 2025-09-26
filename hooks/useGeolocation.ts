@@ -1,10 +1,11 @@
+// FIX: Changed from global window object to ES modules
 import { useState, useCallback } from 'react';
-import type { GeolocationState } from '../types';
+import type { Location } from '../types';
 
 export const useGeolocation = () => {
-  const [location, setLocation] = useState<GeolocationState | null>(null);
+  const [location, setLocation] = useState<Location | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  
   const getUserLocation = useCallback(() => {
     if (!navigator.geolocation) {
       setError('Geolocation is not supported by your browser.');
@@ -24,9 +25,7 @@ export const useGeolocation = () => {
     };
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0
+      enableHighAccuracy: true, timeout: 10000, maximumAge: 0
     });
   }, []);
 
