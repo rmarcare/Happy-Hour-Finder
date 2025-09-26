@@ -1,10 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import type { HappyHourSpecial, GroundingChunk } from '../types';
+import type { HappyHourSpecial } from '../types';
 import { ResultCard, ResultCardSkeleton } from './ResultCard';
 
 interface ResultsListProps {
   specials: HappyHourSpecial[];
-  sources: GroundingChunk[];
   isLoading: boolean;
   error: string | null;
   activeSearch: string;
@@ -12,15 +11,14 @@ interface ResultsListProps {
   onSelectSpecial: (id: string | null) => void;
 }
 
-export const ResultsList: React.FC<ResultsListProps> = ({ 
+export const ResultsList = ({ 
   specials, 
-  sources, 
   isLoading, 
   error, 
   activeSearch,
   selectedSpecialId,
   onSelectSpecial
-}) => {
+}: ResultsListProps) => {
   const selectedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,20 +63,6 @@ export const ResultsList: React.FC<ResultsListProps> = ({
           </h2>
         )}
         {renderContent()}
-        {sources.length > 0 && !isLoading && (
-            <div className="p-4 mt-4 bg-gray-800 rounded-lg">
-                <h4 className="font-semibold text-gray-300 mb-2">Sources</h4>
-                <ul className="space-y-1 text-sm">
-                    {sources.map((source, index) => (
-                        <li key={index}>
-                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 hover:underline truncate block">
-                                {source.web.title || source.web.uri}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        )}
     </div>
   );
 };

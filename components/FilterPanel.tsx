@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Filters } from '../types';
 import { CUISINE_OPTIONS, PRICE_OPTIONS, DAY_OPTIONS } from '../constants';
@@ -8,7 +7,7 @@ interface FilterPanelProps {
   onFilterChange: (newFilters: Filters) => void;
 }
 
-const FilterButton: React.FC<{ label: string; isActive: boolean; onClick: () => void }> = ({ label, isActive, onClick }) => (
+const FilterButton = ({ label, isActive, onClick }: { label: string; isActive: boolean; onClick: () => void }) => (
   <button
     onClick={onClick}
     className={`px-3 py-1 text-sm rounded-full transition-colors duration-200 ${
@@ -22,7 +21,7 @@ const FilterButton: React.FC<{ label: string; isActive: boolean; onClick: () => 
 );
 
 
-export const FilterPanel: React.FC<FilterPanelProps> = ({ filters, onFilterChange }) => {
+export const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   const handleCuisineChange = (cuisine: string) => {
     const newCuisine = filters.cuisine.includes(cuisine)
       ? filters.cuisine.filter(c => c !== cuisine)

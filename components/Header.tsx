@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { SearchIcon, GlassIcon } from './icons/Icons';
 
@@ -6,7 +5,7 @@ interface HeaderProps {
   onSearch: (query: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onSearch }) => {
+export const Header = ({ onSearch }: HeaderProps) => {
   const [query, setQuery] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

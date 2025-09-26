@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { Header } from './components/Header';
@@ -6,12 +5,11 @@ import { MapView } from './components/MapView';
 import { Sidebar } from './components/Sidebar';
 import { findHappyHourSpecials } from './services/geminiService';
 import { useGeolocation } from './hooks/useGeolocation';
-import type { HappyHourSpecial, Filters, GroundingChunk } from './types';
+import type { HappyHourSpecial, Filters } from './types';
 import { DEFAULT_FILTERS, NYC_COORDS } from './constants';
 
-const App: React.FC = () => {
+const App = () => {
   const [specials, setSpecials] = useState<HappyHourSpecial[]>([]);
-  const [sources, setSources] = useState<GroundingChunk[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -25,15 +23,13 @@ const App: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setSpecials([]);
-    setSources([]);
     setActiveSearch(query);
     setSelectedSpecialId(null);
 
     try {
       const result = await findHappyHourSpecials(query, currentFilters);
-      if (result && result.specials) {
-        setSpecials(result.specials);
-        setSources(result.sources || []);
+      if (result && result.length > 0) {
+        setSpecials(result);
       } else {
         setSpecials([]);
         setError("No happy hour specials found. Try a different search.");
@@ -50,8 +46,7 @@ const App: React.FC = () => {
   useEffect(() => {
     setActiveSearch('your current location');
     getUserLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getUserLocation]);
 
   useEffect(() => {
     if (location) {
@@ -60,11 +55,9 @@ const App: React.FC = () => {
         setError(`Could not get your location: ${locationError}. Please grant location access or search for a city manually.`);
         setIsLoading(false);
         setSpecials([]);
-        setSources([]);
         setActiveSearch('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, locationError]);
+  }, [location, locationError, handleSearch, filters]);
 
 
   const onSearchSubmit = (query: string) => {
@@ -74,7 +67,7 @@ const App: React.FC = () => {
   
   const onFilterChange = (newFilters: Filters) => {
     setFilters(newFilters);
-    const queryToFilter = searchQuery || activeSearch;
+    const queryToFilter = searchQuery || (location ? `my current location (${location.latitude}, ${location.longitude})` : activeSearch);
     if (queryToFilter) {
       handleSearch(queryToFilter, newFilters);
     }
@@ -106,7 +99,6 @@ const App: React.FC = () => {
         <div className="flex flex-1 overflow-hidden">
           <Sidebar 
             specials={specials}
-            sources={sources}
             isLoading={isLoading}
             error={error}
             filters={filters}

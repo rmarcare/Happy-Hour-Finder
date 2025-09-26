@@ -8,7 +8,7 @@ interface ResultCardProps {
   onClick: () => void;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ special, isSelected, onClick }) => {
+export const ResultCard = ({ special, isSelected, onClick }: ResultCardProps) => {
   const borderColor = isSelected ? 'border-pink-500' : 'border-gray-700 hover:border-pink-500';
 
   return (
@@ -48,7 +48,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ special, isSelected, onC
   );
 };
 
-export const ResultCardSkeleton: React.FC = () => (
+export const ResultCardSkeleton = () => (
   <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 animate-pulse">
     <div className="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
     <div className="h-4 bg-gray-700 rounded w-full mb-4"></div>

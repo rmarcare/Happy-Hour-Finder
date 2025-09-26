@@ -11,10 +11,10 @@ interface MapViewProps {
     onSelectSpecial: (id: string | null) => void;
 }
 
-const HappyHourMarker: React.FC<{
+const HappyHourMarker = ({ special, onClick }: {
     special: HappyHourSpecial,
     onClick: () => void,
-}> = ({ special, onClick }) => (
+}) => (
     <AdvancedMarker
         position={special.position}
         onClick={onClick}
@@ -26,20 +26,20 @@ const HappyHourMarker: React.FC<{
     </AdvancedMarker>
 );
 
-const UserMarker: React.FC<{position: {lat: number, lng: number}}> = ({ position }) => (
+const UserMarker = ({ position }: {position: {lat: number, lng: number}}) => (
      <AdvancedMarker position={position} title={"Your Location"}>
         <UserLocationIcon className="w-8 h-8 text-blue-500" />
      </AdvancedMarker>
 )
 
 
-const MapViewContent: React.FC<MapViewProps> = ({ 
+const MapViewContent = ({ 
     specials,
     center,
     userLocation,
     selectedSpecialId, 
     onSelectSpecial 
-}) => {
+}: MapViewProps) => {
   const map = useMap();
   const selectedSpecial = specials.find(s => s.id === selectedSpecialId);
 
@@ -83,7 +83,7 @@ const MapViewContent: React.FC<MapViewProps> = ({
 }
 
 
-export const MapView: React.FC<MapViewProps> = (props) => {
+export const MapView = (props: MapViewProps) => {
     // A dark mode map style from Google's style wizard
     const mapId = "b1e8a93a1c6e4e4";
     
